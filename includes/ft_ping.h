@@ -6,7 +6,7 @@
 /*   By: acazuc <acazuc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 09:11:40 by acazuc            #+#    #+#             */
-/*   Updated: 2016/04/01 21:09:04 by acazuc           ###   ########.fr       */
+/*   Updated: 2016/04/01 22:09:10 by acazuc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdint.h>
 # include <unistd.h>
 # include <linux/icmp.h>
+# include <sys/time.h>
 
 typedef struct s_env t_env;
 typedef struct s_packet t_packet;
@@ -34,6 +35,7 @@ struct s_env
 	int socket;
 	struct sockaddr *addr;
 	size_t addrlen;
+	size_t sended;
 };
 
 struct s_packet
@@ -53,5 +55,7 @@ void resolve_destination(t_env *env);
 void do_connect(t_env *env);
 uint16_t ip_checksum(void *val, size_t len);
 void ping_send(t_env *env);
+void ping_receive(t_env *env);
+size_t epoch_micro(void);
 
 #endif

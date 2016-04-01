@@ -1,38 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   epoch_micro.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acazuc <acazuc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/01 09:12:26 by acazuc            #+#    #+#             */
-/*   Updated: 2016/04/01 21:48:03 by acazuc           ###   ########.fr       */
+/*   Created: 2016/04/01 21:18:07 by acazuc            #+#    #+#             */
+/*   Updated: 2016/04/01 21:20:22 by acazuc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
 
-int main(int ac, char **av)
+size_t epoch_micro(void)
 {
-	t_env env;
-	int uid;
+	struct timeval tv;
 
-	uid = getuid();
-	if (uid != 0)
+	if (gettimeofday(&tv, NULL))
 	{
-		ft_putendl_fd("You're not root, please use sudo or log as root", 2);
+		ft_putendl_fd("ft_ping: can't get time, aborting", 2);
 		exit(EXIT_FAILURE);
 	}
-	env_init(&env);
-	parse_params(&env, ac, av);
-	resolve_destination(&env);
-	do_connect(&env);
-	ft_putstr("PING ");
-	ft_putstr(env.destination);
-	ft_putstr(" (");
-	ft_putstr(env.ip);
-	ft_putendl(") 32(48) bytes of data.");
-	ping_send(&env);
-	ping_receive(&env);
-	return (0);
+	return (tv.tv_sec * 1000000 + tv.tv_usec);
 }

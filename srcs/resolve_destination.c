@@ -6,7 +6,7 @@
 /*   By: acazuc <acazuc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 09:41:32 by acazuc            #+#    #+#             */
-/*   Updated: 2016/04/01 21:10:19 by acazuc           ###   ########.fr       */
+/*   Updated: 2016/04/01 22:52:44 by acazuc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,18 @@ void resolve_destination(t_env *env)
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_RAW;
 	hints.ai_protocol = IPPROTO_ICMP;
-	if (getaddrinfo(env->destination, NULL, &hints, &res) || !res)
+	if (getaddrinfo(env->destination, NULL, &hints, &res))
 	{
 		ft_putstr_fd("ft_ping: unknown host ", 2);
 		ft_putendl_fd(env->destination, 2);
 		exit(EXIT_FAILURE);
 	}
 	while (res && (res->ai_family != AF_INET || res->ai_socktype != SOCK_RAW || res->ai_protocol != IPPROTO_ICMP))
-	{
-		ft_putendl("NEXT BITCH");
 		res = res->ai_next;
-	}
 	if (!res)
 	{
-		ft_putendl_fd("Can't resolve ICMP socket", 2);
+		ft_putstr_fd("ft_ping: unknown host: ", 2);
+		ft_putendl_fd(env->destination, 2);
 		exit(EXIT_FAILURE);
 	}
 	if (!inet_ntop(AF_INET, &((struct sockaddr_in*)res->ai_addr)->sin_addr, tmp, 16))
