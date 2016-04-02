@@ -6,7 +6,7 @@
 /*   By: acazuc <acazuc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 09:11:40 by acazuc            #+#    #+#             */
-/*   Updated: 2016/04/02 15:51:59 by acazuc           ###   ########.fr       */
+/*   Updated: 2016/04/02 16:26:29 by acazuc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <netinet/in.h>
 # include <netdb.h>
 # include <stdint.h>
+# include <limits.h>
+# include <math.h>
 # include <unistd.h>
 # include <linux/icmp.h>
 # include <linux/ip.h>
@@ -31,6 +33,14 @@ typedef struct s_env t_env;
 typedef struct s_packet t_packet;
 typedef struct s_ip_header t_ip_header;
 typedef struct s_icmp_header t_icmp_header;
+typedef struct s_time t_time;
+typedef struct s_sended t_sended;
+
+struct s_time
+{
+	size_t time;
+	t_time *next;
+};
 
 struct s_env
 {
@@ -46,6 +56,7 @@ struct s_env
 	int stopped;
 	size_t last_send;
 	size_t total_send;
+	t_time *times;
 };
 
 struct s_ip_header
@@ -84,10 +95,11 @@ void print_help(int fd);
 void resolve_destination(t_env *env);
 void do_connect(t_env *env);
 uint16_t ip_checksum(void *val, size_t len);
-t_packet ping_send(t_env *env);
-void ping_receive(t_env *env, t_packet packet);
+void ping_send(t_env *env);
+void ping_receive(t_env *env);
 size_t epoch_micro(void);
 void sigalrm_handler(int sig);
 void sigint_handler(int sig);
+void time_add(t_env *env, size_t time);
 
 #endif

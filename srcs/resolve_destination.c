@@ -6,7 +6,7 @@
 /*   By: acazuc <acazuc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 09:41:32 by acazuc            #+#    #+#             */
-/*   Updated: 2016/04/02 13:38:04 by acazuc           ###   ########.fr       */
+/*   Updated: 2016/04/02 18:03:21 by acazuc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void resolve_destination(t_env *env)
 		ft_putendl_fd(env->destination, 2);
 		exit(EXIT_FAILURE);
 	}
+	ft_bzero(tmp, 16);
 	if (!inet_ntop(AF_INET, &((struct sockaddr_in*)res->ai_addr)->sin_addr, tmp, 16))
 	{
 		ft_putstr_fd("ft_ping: unknown host ", 2);

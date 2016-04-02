@@ -6,7 +6,7 @@
 /*   By: acazuc <acazuc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 13:30:40 by acazuc            #+#    #+#             */
-/*   Updated: 2016/04/02 15:44:09 by acazuc           ###   ########.fr       */
+/*   Updated: 2016/04/02 18:28:45 by acazuc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static void build_ip_header(t_env *env, struct iphdr *header)
 	header->ihl = 5;
 	header->tos = 0;
 	header->tot_len = sizeof(t_packet);
-	header->id = env->count;
-	header->frag_off = (0 << 13) | 0;
-	header->ttl = 64;
+	header->id = ICMP_ECHO;
+	header->frag_off = 2 << 13;
+	header->ttl = 255;
 	header->protocol = IPPROTO_ICMP;
 	header->check = 0;
 	if (inet_pton(AF_INET, env->ip, &header->daddr) != 1)
@@ -29,8 +29,8 @@ static void build_ip_header(t_env *env, struct iphdr *header)
 		ft_putendl_fd("ft_ping: can't pton ip", 2);
 		exit(EXIT_FAILURE);
 	}
-	header->saddr = header->daddr;
-	header->check = ip_checksum(header, sizeof(*header));
+	header->saddr = 0;
+	header->check = 0;
 }
 
 static void build_icmp_header(t_env *env, struct icmphdr *header)
@@ -40,13 +40,15 @@ static void build_icmp_header(t_env *env, struct icmphdr *header)
 	header->code = 0;
 	header->un.echo.id = getpid();
 	header->un.echo.sequence = env->count;
+	header->checksum = 0;
 	header->checksum = ip_checksum(header, sizeof(*header));
 }
 
-t_packet ping_send(t_env *env)
+void ping_send(t_env *env)
 {
 	t_packet packet;
 	struct timeval tv;
+	ssize_t sended;
 
 	if (gettimeofday(&tv, NULL))
 	{
@@ -57,11 +59,10 @@ t_packet ping_send(t_env *env)
 	build_ip_header(env, &packet.ip_header);
 	build_icmp_header(env, &packet.icmp_header);
 	ft_memcpy(packet.data, &tv, sizeof(tv));
-	if (sendto(env->socket, &packet, sizeof(packet), 0, env->addr, env->addrlen) == -1)
+	if ((sended = sendto(env->socket, &packet, sizeof(packet), 0, env->addr, env->addrlen)) == -1)
 	{
 		ft_putendl_fd("ft_ping: can't send packet", 2);
 		exit(EXIT_FAILURE);
 	}
 	env->sended = epoch_micro();
-	return (packet);
 }
