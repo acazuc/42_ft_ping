@@ -6,7 +6,7 @@
 /*   By: acazuc <acazuc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 21:02:55 by acazuc            #+#    #+#             */
-/*   Updated: 2016/04/02 18:05:43 by acazuc           ###   ########.fr       */
+/*   Updated: 2016/04/02 19:00:46 by acazuc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,9 @@ void ping_receive(t_env *env)
 		ft_putendl_fd("ft_ping: can't receiving ping", 2);
 		exit(EXIT_FAILURE);
 	}
-	ft_putendl("Received");
 	time = epoch_micro() - env->last_send;
 	got -= sizeof(packet.ip_header);
-	if (packet.icmp_header.un.echo.id == getpid() && packet.icmp_header.un.echo.sequence == env->count/* && packet.icmp_header.type == ICMP_ECHOREPLY*/)
+	if (packet.icmp_header.un.echo.id == getpid() && packet.icmp_header.un.echo.sequence == env->count && packet.icmp_header.type == ICMP_ECHOREPLY)
 	{
 		env->received++;
 		if (!env->stopped)

@@ -6,7 +6,7 @@
 /*   By: acazuc <acazuc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 13:30:40 by acazuc            #+#    #+#             */
-/*   Updated: 2016/04/02 18:28:45 by acazuc           ###   ########.fr       */
+/*   Updated: 2016/04/02 19:00:21 by acazuc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void build_ip_header(t_env *env, struct iphdr *header)
 	header->tos = 0;
 	header->tot_len = sizeof(t_packet);
 	header->id = ICMP_ECHO;
-	header->frag_off = 2 << 13;
+	header->frag_off = 0;
 	header->ttl = 255;
 	header->protocol = IPPROTO_ICMP;
 	header->check = 0;
@@ -39,9 +39,9 @@ static void build_icmp_header(t_env *env, struct icmphdr *header)
 	header->type = ICMP_ECHO;
 	header->code = 0;
 	header->un.echo.id = getpid();
-	header->un.echo.sequence = env->count;
+	header->un.echo.sequence = (uint16_t)env->count;
 	header->checksum = 0;
-	header->checksum = ip_checksum(header, sizeof(*header));
+	header->checksum = ip_checksum(header, sizeof(t_packet) - sizeof(struct iphdr));
 }
 
 void ping_send(t_env *env)
@@ -56,9 +56,9 @@ void ping_send(t_env *env)
 		exit(EXIT_FAILURE);
 	}
 	env->count++;
+	ft_memcpy(packet.data, &tv, sizeof(tv));
 	build_ip_header(env, &packet.ip_header);
 	build_icmp_header(env, &packet.icmp_header);
-	ft_memcpy(packet.data, &tv, sizeof(tv));
 	if ((sended = sendto(env->socket, &packet, sizeof(packet), 0, env->addr, env->addrlen)) == -1)
 	{
 		ft_putendl_fd("ft_ping: can't send packet", 2);
