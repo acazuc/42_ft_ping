@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ip_checksum.c                                      :+:      :+:    :+:   */
+/*   sigalrm_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acazuc <acazuc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/01 13:59:37 by acazuc            #+#    #+#             */
-/*   Updated: 2016/04/02 13:40:42 by acazuc           ###   ########.fr       */
+/*   Created: 2016/04/02 14:01:11 by acazuc            #+#    #+#             */
+/*   Updated: 2016/04/02 15:44:33 by acazuc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
 
-uint16_t ip_checksum(void *addr, size_t len)
-{
-	uint64_t result;
-	unsigned char *tmp;
+t_env *g_env;
 
-	tmp = (unsigned char*)addr;
-	result = 0;
-	while (len > 1)
-	{
-		result += tmp[len] + (tmp[len + 1] << 8);
-		len -= 2;
-	}
-	if (len)
-		result += tmp[len];
-	while (result > 0xFFFF)
-		result = ((result >> 16) & 0xFFFF) + (result & 0xFFFF);
-	result = ~result;
-	return ((uint16_t)result);
+void sigalrm_handler(int sig)
+{
+	t_packet packet;
+	g_env->total_send += epoch_micro() - g_env->last_send;
+	g_env->last_send = epoch_micro();
+	alarm(1);
+	packet = ping_send(g_env);
+	ping_receive(g_env, packet);
+	(void)sig;
 }
