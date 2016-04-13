@@ -57,6 +57,7 @@ struct s_env
 	size_t last_send;
 	size_t total_send;
 	t_time *times;
+	int has_received;
 };
 
 struct s_ip_header

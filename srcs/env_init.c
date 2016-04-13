@@ -19,4 +19,5 @@ void env_init(t_env *env)
 	env->count = 0;
 	env->received = 0;
 	env->times = NULL;
+	env->has_received = 0;
 }
