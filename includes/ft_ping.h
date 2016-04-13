@@ -31,8 +31,6 @@
 
 typedef struct s_env t_env;
 typedef struct s_packet t_packet;
-typedef struct s_ip_header t_ip_header;
-typedef struct s_icmp_header t_icmp_header;
 typedef struct s_time t_time;
 typedef struct s_sended t_sended;
 
@@ -58,29 +56,6 @@ struct s_env
 	size_t total_send;
 	t_time *times;
 	int has_received;
-};
-
-struct s_ip_header
-{
-	uint8_t version_ihl;
-	uint8_t dscp_ecn;
-	uint16_t length;
-	uint16_t identification;
-	uint16_t flags_offset;
-	uint8_t ttl;
-	uint8_t protocol;
-	uint8_t checksum;
-	uint32_t source_ip;
-	uint32_t dest_ip;
-};
-
-struct s_icmp_header
-{
-	uint8_t type;
-	uint8_t code;
-	uint16_t checksum;
-	uint16_t id;
-	uint16_t sequence;
 };
 
 struct s_packet

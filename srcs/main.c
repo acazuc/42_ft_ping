@@ -34,7 +34,7 @@ int main(int ac, char **av)
 	ft_putstr(" (");
 	ft_putstr(env.ip);
 	ft_putstr(") ");
-	ft_putnbr(sizeof(t_packet) - sizeof(t_ip_header) - sizeof(t_icmp_header));
+	ft_putnbr(sizeof(t_packet) - sizeof(struct iphdr) - sizeof(struct icmphdr));
 	ft_putchar('(');
 	ft_putnbr(sizeof(t_packet));
 	ft_putendl(") bytes of data.");

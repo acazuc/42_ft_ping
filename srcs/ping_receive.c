@@ -19,7 +19,7 @@ void ping_receive(t_env *env)
 	size_t time;
 	char ip[16];
 
-	if ((got = recvfrom(env->socket, &packet, sizeof(packet), 0, NULL, NULL)) == -1)
+	if ((got = recvfrom(env->socket, &packet, sizeof(packet), 0, env->addr, (socklen_t*)&env->addrlen)) == -1)
 	{
 		ft_putendl_fd("ft_ping: can't receiving ping", 2);
 		exit(EXIT_FAILURE);
