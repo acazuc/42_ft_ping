@@ -6,14 +6,14 @@
 /*   By: acazuc <acazuc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 09:11:40 by acazuc            #+#    #+#             */
-/*   Updated: 2016/10/07 18:20:09 by acazuc           ###   ########.fr       */
+/*   Updated: 2016/10/07 18:39:55 by acazuc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PING_H
 # define FT_PING_H
 
-# include "../libft/includes/libft.h"
+# include "../libft/include/libft.h"
 # include <sys/types.h>
 # include <sys/socket.h>
 # include <arpa/inet.h>
