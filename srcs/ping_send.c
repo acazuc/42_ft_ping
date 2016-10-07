@@ -6,7 +6,7 @@
 /*   By: acazuc <acazuc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 13:30:40 by acazuc            #+#    #+#             */
-/*   Updated: 2016/10/07 18:19:56 by acazuc           ###   ########.fr       */
+/*   Updated: 2016/10/07 18:30:45 by acazuc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void ping_send(t_env *env)
 	ssize_t sended;
 
 	env->count++;
-	if (env->v && !env->has_received && env->count != 1) {
+	if (env->v && !env->has_received && env->count != 1)
+	{
 		printf("%lu bytes from %s: type=%d code=%d\n", sizeof(t_packet) - sizeof(struct iphdr), env->ip, 11, 0);
 	}
 	env->has_received = 0;
