@@ -6,7 +6,7 @@
 /*   By: acazuc <acazuc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 13:30:40 by acazuc            #+#    #+#             */
-/*   Updated: 2016/04/18 17:00:53 by acazuc           ###   ########.fr       */
+/*   Updated: 2016/10/07 18:19:56 by acazuc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void ping_send(t_env *env)
 	build_icmp_header(env, &packet.icmp_header);
 	if ((sended = sendto(env->socket, &packet, sizeof(packet), MSG_CONFIRM, env->addr, env->addrlen)) == -1)
 	{
+		ft_putnbr(errno);
 		ft_putendl_fd("ft_ping: can't send packet", 2);
 		exit(EXIT_FAILURE);
 	}

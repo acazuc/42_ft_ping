@@ -6,7 +6,7 @@
 /*   By: acazuc <acazuc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 09:12:26 by acazuc            #+#    #+#             */
-/*   Updated: 2016/05/01 02:17:38 by acazuc           ###   ########.fr       */
+/*   Updated: 2016/10/07 18:25:44 by acazuc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int main(int ac, char **av)
 	signal(SIGINT, &sigint_handler);
 	signal(SIGALRM, &sigalrm_handler);
 	env.last_send = epoch_micro();
+	ping_send(g_env);
 	alarm(1);
 	while (!env.stopped)
 	{

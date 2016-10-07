@@ -6,7 +6,7 @@
 /*   By: acazuc <acazuc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/02 14:03:56 by acazuc            #+#    #+#             */
-/*   Updated: 2016/04/02 16:50:12 by acazuc           ###   ########.fr       */
+/*   Updated: 2016/10/07 18:22:59 by acazuc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,10 @@ void	sigint_handler(int sig)
 		deviation = 0;
 	else
 		deviation = sqrt((double)deviation / (double)number);
-	printf("rtt min/avg/max/mdev = %.3f/%.3f/%.3f/%.3f ms\n", min / 1000., number == 0 ? 0 : (avg / 1000.), max / 1000., deviation / 1000.);
+	if (g_env->received > 0)
+		printf("rtt min/avg/max/mdev = %.3f/%.3f/%.3f/%.3f ms\n", min / 1000., number == 0 ? 0 : (avg / 1000.), max / 1000., deviation / 1000.);
+	else
+		printf("\n");
 	exit(EXIT_SUCCESS);
 	(void)sig;
 }

@@ -6,7 +6,7 @@
 /*   By: acazuc <acazuc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 09:11:40 by acazuc            #+#    #+#             */
-/*   Updated: 2016/04/02 16:26:29 by acazuc           ###   ########.fr       */
+/*   Updated: 2016/10/07 18:20:09 by acazuc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <sys/time.h>
 # include <signal.h>
 # include <stdio.h>
+# include <errno.h>
 
 typedef struct s_env t_env;
 typedef struct s_packet t_packet;
