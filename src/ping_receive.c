@@ -6,7 +6,7 @@
 /*   By: acazuc <acazuc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 21:02:55 by acazuc            #+#    #+#             */
-/*   Updated: 2016/05/01 02:14:10 by acazuc           ###   ########.fr       */
+/*   Updated: 2016/10/09 19:40:02 by acazuc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,22 @@
 
 void ping_receive(t_env *env)
 {
+	struct msghdr msghdr;
+	struct iovec iovec;
 	t_packet packet;
 	ssize_t got;
 	size_t time;
 	char ip[16];
 
-	if ((got = recvfrom(env->socket, &packet, sizeof(packet), 0, env->addr, (socklen_t*)&env->addrlen)) == -1)
+	ft_bzero(&msghdr, sizeof(msghdr));
+	ft_bzero(&iovec, sizeof(iovec));
+	iovec.iov_base = &packet;
+	iovec.iov_len = sizeof(packet);
+	msghdr.msg_name = env->addr;
+	msghdr.msg_namelen = env->addrlen;
+	msghdr.msg_iov = &iovec;
+	msghdr.msg_iovlen = 1;
+	if ((got = recvmsg(env->socket, &msghdr, 0)) == -1)//, env->addr, (socklen_t*)&env->addrlen)) == -1)
 	{
 		ft_putendl_fd("ft_ping: can't receiving ping", 2);
 		exit(EXIT_FAILURE);
