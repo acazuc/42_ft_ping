@@ -42,7 +42,7 @@ void ping_receive(t_env *env)
 		env->has_received = 1;
 		env->received++;
 		if (!env->stopped)
-			printf("%lu bytes from %s: icmp_seq=%d ttl=%d time=%.3fms\n", got, inet_ntop(AF_INET, &packet.ip_header.saddr, ip, 16), packet.icmp_header.un.echo.sequence, packet.ip_header.ttl, (time) / 1000.);
+			printf("%lu bytes from %s: icmp_seq=%d ttl=%d time=%.3g ms\n", got, inet_ntop(AF_INET, &packet.ip_header.saddr, ip, 16), packet.icmp_header.un.echo.sequence, packet.ip_header.ttl, (time) / 1000.);
 		time_add(env, time);
 	}
 	else if (env->v)
